@@ -42,14 +42,38 @@ def binary_search(seq, number):
     return None
 
 
+def recursive_binary_search(seq, number, left, right):
+    """
+    Function performs binary search on !!ordered!! sequence and stores position of match if found.
+    :param seq: (list): list of numbers
+    :param number: (int): number to match within sequence
+    :param right: (int): right margin of the search area
+    :param left: (int): left margin of the search area
+    :return: (int, None): index of match if found, None otherwise
+    """
+    middle = (right + left) // 2
+    if seq[middle] == number:
+        return middle
+    elif left == right:
+        return None
+    elif seq[middle] > number:
+        return recursive_binary_search(seq, number, left, middle - 1)
+    elif seq[middle] < number:
+        return recursive_binary_search(seq, number, middle + 1, right)
+
+
 def main(file_name, number):
     sequence = read_data(file_name=file_name, key="ordered_numbers")
 
     # iterative binary search
     binary_search(sequence, number=number)
+    # recursive binary search
+    print(sequence)
+    index = recursive_binary_search(sequence, number, 0, len(sequence) - 1)
+    print(index)
 
 
 if __name__ == "__main__":
     my_file = "sequential.json"
-    my_number = 90
+    my_number = 72
     main(my_file, my_number)
